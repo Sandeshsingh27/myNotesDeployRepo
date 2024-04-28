@@ -30,6 +30,8 @@ const TitleTypography = styled(Typography)`
     font-size: 14px;
 `;
 
+const url = 'http://127.0.0.1:8000/'
+
 const Note = ({ note }) => {
     const { notes, setNotes, setArchiveNotes, setTrashNotes } = useContext(DataContext);
     const [colorPickerAnchorEl, setColorPickerAnchorEl] = useState(null);
@@ -65,7 +67,7 @@ const Note = ({ note }) => {
         };
 
         try {
-            const response = await axios.put(`http://127.0.0.1:8000/api/Note/${note.note_id}/`, data);
+            const response = await axios.put(url+`api/Note/${note.note_id}/`, data);
             console.log('Color updated successfully:', response.data);
             // Update the state with the new color
             const updatedNotes = notes.map(data => {
@@ -86,7 +88,7 @@ const Note = ({ note }) => {
             isArchive: true
         };
     
-        axios.put(`http://127.0.0.1:8000/api/Note/${note.note_id}/`, data)
+        axios.put(url+`api/Note/${note.note_id}/`, data)
             .then(response => {
                 const updatedNotes = notes.filter(data => data.note_id !== note.note_id);
                 setNotes(updatedNotes);
@@ -103,7 +105,7 @@ const Note = ({ note }) => {
             isTrash: true
         };
 
-        axios.put(`http://127.0.0.1:8000/api/Note/${note.note_id}/`, data)
+        axios.put(url+`api/Note/${note.note_id}/`, data)
             .then(response => {
                 const updatedNotes = notes.filter(data => data.note_id !== note.note_id);
                 setNotes(updatedNotes);
@@ -123,7 +125,7 @@ const Note = ({ note }) => {
             return data;
         });
 
-        axios.put(`http://127.0.0.1:8000/api/Note/${note.note_id}/`, updatedNote)
+        axios.put(url+`api/Note/${note.note_id}/`, updatedNote)
             .then(response => {
                 setNotes(updatedNotes);
             })

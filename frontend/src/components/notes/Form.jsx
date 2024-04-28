@@ -19,6 +19,8 @@ const Container = styled(Box)`
     padding: 10px 15px;
 `;
 
+const url = 'http://127.0.0.1:8000/'
+
 const Form = () => {
     const [showTextField, setShowTextField] = useState(false);
     const [noteData, setNoteData] = useState({ title: '', body: '', bg_color: '#FFFFFF', isPinned: false }); // Updated field names
@@ -44,7 +46,7 @@ const Form = () => {
                     }
     
                     // Update note in the database
-                    axios.put(`http://127.0.0.1:8000/api/Note/${newNote.note_id}/`, updatedNoteData)
+                    axios.put(url+`api/Note/${newNote.note_id}/`, updatedNoteData)
                         .then(response => {
                             console.log('Note updated successfully:', response.data);
                         })

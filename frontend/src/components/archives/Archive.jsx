@@ -23,6 +23,8 @@ const TitleTypography = styled(Typography)`
     font-size: 16px; /* Adjust the font size as needed */
 `;
 
+const url = 'http://127.0.0.1:8000/'
+
 const Archive = ({ archive }) => {
     const { archiveNotes, setNotes, setArchiveNotes, setTrashNotes } = useContext(DataContext);
     const [colorPickerAnchorEl, setColorPickerAnchorEl] = useState(null);
@@ -31,7 +33,7 @@ const Archive = ({ archive }) => {
     useEffect(() => {
         const fetchColor = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/Note/${archive.note_id}`);
+                const response = await axios.get(url+`api/Note/${archive.note_id}`);
                 const color = response.data.bg_color;
                 setBackgroundColor(color || '#FFFFFF');
             } catch (error) {
@@ -62,7 +64,7 @@ const Archive = ({ archive }) => {
         };
 
         try {
-            const response = await axios.put(`http://127.0.0.1:8000/api/Note/${archive.note_id}/`, data);
+            const response = await axios.put(url+`api/Note/${archive.note_id}/`, data);
             console.log('Color updated successfully:', response.data);
             const updatedNotes = archiveNotes.map(data => {
                 if (data.note_id === archive.note_id) {
@@ -82,7 +84,7 @@ const Archive = ({ archive }) => {
             isArchive: false  // Set isArchive to false to indicate unarchiving
         };
     
-        axios.put(`http://127.0.0.1:8000/api/Note/${archive.note_id}/`, data)
+        axios.put(url+`api/Note/${archive.note_id}/`, data)
             .then(response => {
                 const updatedNotes = archiveNotes.filter(data => data.note_id !== archive.note_id);
                 setArchiveNotes(updatedNotes);
@@ -99,7 +101,7 @@ const Archive = ({ archive }) => {
             isArchive: false,
             isTrash: true
         };
-        axios.put(`http://127.0.0.1:8000/api/Note/${archive.note_id}/`, data)
+        axios.put(url+`api/Note/${archive.note_id}/`, data)
             .then(response => {
                 const updatedNotes = archiveNotes.filter(data => data.note_id !== archive.note_id);
                 setArchiveNotes(updatedNotes);
