@@ -1,7 +1,7 @@
 import axios from "axios"
 // import React from "react"
 
-const url = 'http://127.0.0.1:8000'
+const url = `http://127.0.0.1:8000/` ? `http://127.0.0.1:8000/` : `/choreo-apis/mynotes/backend/rest-api-074/v1.0`
 
 export function getNote() {
     return axios.get(url+'api/Note/')
