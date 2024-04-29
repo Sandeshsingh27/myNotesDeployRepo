@@ -1,10 +1,11 @@
 import axios from "axios"
+import apiUrl from "./config";
 // import React from "react"
 
-const url = `http://127.0.0.1:8000/` ? `http://127.0.0.1:8000/` : `/choreo-apis/mynotes/backend/rest-api-074/v1.0`
+
 
 export function getNote() {
-    return axios.get(url+'api/Note/')
+    return axios.get(apiUrl+'api/Note/')
     .then(res => {
         // Filter out archived and trashed notes
         const nonArchivedNonTrashedNotes = res.data.filter(note => !note.isArchive && !note.isTrash);
@@ -29,7 +30,7 @@ export function addNote(note) {
         return Promise.reject("Body is necessary to enter.");
     }
 
-    return axios.post(url+'api/Note/', {
+    return axios.post(apiUrl+'api/Note/', {
         title: noteTitle,
         body: body,
         isPinned: isPinned,
@@ -50,7 +51,7 @@ export function addNote(note) {
 
 
 export function permanentDeleteNote(id) {
-    return axios.delete(url+'api/Note/'+id+'/')
+    return axios.delete(apiUrl+'api/Note/'+id+'/')
     .then(res => {
         return res.data; // Return the data from the axios response
     })
@@ -61,7 +62,7 @@ export function permanentDeleteNote(id) {
 }
 
 export function getArchivedNotes() {
-    return axios.get(url+'api/Note/', { params: { isArchive: true } })
+    return axios.get(apiUrl+'api/Note/', { params: { isArchive: true } })
         .then(res => {
             // Filter out notes that are not archived
             const archivedNotes = res.data.filter(note => note.isArchive);
@@ -77,7 +78,7 @@ export function getArchivedNotes() {
 }
 
 export function getTrashedNotes() {
-    return axios.get(url+'api/Note/', { params: { isTrash: true } })
+    return axios.get(apiUrl+'api/Note/', { params: { isTrash: true } })
         .then(res => {
             // Filter out notes that are not archived
             const trashedNotes = res.data.filter(note => note.isTrash);

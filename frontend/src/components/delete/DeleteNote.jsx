@@ -8,6 +8,7 @@ import { ChromePicker } from 'react-color';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 
 import { DataContext } from '../../context/DataProvider';
+import apiUrl from '../../services/config';
 
 const StyledCard = styled(Card)`
     border: 1px solid #e0e0e0;
@@ -24,8 +25,6 @@ const TitleTypography = styled(Typography)`
     font-size: 16px; /* Adjust the font size as needed */
 `;
 
-const url = 'http://127.0.0.1:8000/'
-
 const DeleteNote = ({ deleteNote }) => {
     const { trashNotes, setNotes, setTrashNotes } = useContext(DataContext);
     const [colorPickerAnchorEl, setColorPickerAnchorEl] = useState(null);
@@ -34,7 +33,7 @@ const DeleteNote = ({ deleteNote }) => {
     useEffect(() => {
         const fetchColor = async () => {
             try {
-                const response = await axios.get(url+`api/Note/${deleteNote.note_id}`);
+                const response = await axios.get(apiUrl+`api/Note/${deleteNote.note_id}`);
                 const color = response.data.bg_color;
                 setBackgroundColor(color || '#FFFFFF');
             } catch (error) {
@@ -65,7 +64,7 @@ const DeleteNote = ({ deleteNote }) => {
         };
 
         try {
-            const response = await axios.put(url+`api/Note/${deleteNote.note_id}/`, data);
+            const response = await axios.put(apiUrl+`api/Note/${deleteNote.note_id}/`, data);
             console.log('Color updated successfully:', response.data);
             // Update the state with the new color
             const updatedNotes = trashNotes.map(data => {
@@ -86,7 +85,7 @@ const DeleteNote = ({ deleteNote }) => {
             isTrash: false  // Set isTrash to false to indicate restoring
         };
     
-        axios.put(url+`api/Note/${deleteNote.note_id}/`, data)
+        axios.put(apiUrl+`api/Note/${deleteNote.note_id}/`, data)
             .then(response => {
                 const updatedNotes = trashNotes.filter(data => data.note_id !== deleteNote.note_id);
                 setTrashNotes(updatedNotes);
@@ -98,7 +97,7 @@ const DeleteNote = ({ deleteNote }) => {
     }
 
     const removeNote = () => {
-        axios.delete(url+`api/Note/${deleteNote.note_id}/`)
+        axios.delete(apiUrl+`api/Note/${deleteNote.note_id}/`)
         .then(res => {
             const updatedNotes = trashNotes.filter(data => data.note_id !== deleteNote.note_id);
             setTrashNotes(updatedNotes);

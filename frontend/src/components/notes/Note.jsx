@@ -8,6 +8,7 @@ import { ArchiveOutlined as Archive, DeleteOutlineOutlined as Delete, PushPinOut
 import { DataContext } from '../../context/DataProvider';
 import { ChromePicker } from 'react-color';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
+import apiUrl from '../../services/config';
 
 const StyledCard = styled(Card)`
     border: 1px solid #e0e0e0;
@@ -29,8 +30,6 @@ const TitleTypography = styled(Typography)`
     font-weight: bold;
     font-size: 14px;
 `;
-
-const url = 'http://127.0.0.1:8000/'
 
 const Note = ({ note }) => {
     const { notes, setNotes, setArchiveNotes, setTrashNotes } = useContext(DataContext);
@@ -67,7 +66,7 @@ const Note = ({ note }) => {
         };
 
         try {
-            const response = await axios.put(url+`api/Note/${note.note_id}/`, data);
+            const response = await axios.put(apiUrl+`api/Note/${note.note_id}/`, data);
             console.log('Color updated successfully:', response.data);
             // Update the state with the new color
             const updatedNotes = notes.map(data => {
@@ -88,7 +87,7 @@ const Note = ({ note }) => {
             isArchive: true
         };
     
-        axios.put(url+`api/Note/${note.note_id}/`, data)
+        axios.put(apiUrl+`api/Note/${note.note_id}/`, data)
             .then(response => {
                 const updatedNotes = notes.filter(data => data.note_id !== note.note_id);
                 setNotes(updatedNotes);
@@ -105,7 +104,7 @@ const Note = ({ note }) => {
             isTrash: true
         };
 
-        axios.put(url+`api/Note/${note.note_id}/`, data)
+        axios.put(apiUrl+`api/Note/${note.note_id}/`, data)
             .then(response => {
                 const updatedNotes = notes.filter(data => data.note_id !== note.note_id);
                 setNotes(updatedNotes);
@@ -125,7 +124,7 @@ const Note = ({ note }) => {
             return data;
         });
 
-        axios.put(url+`api/Note/${note.note_id}/`, updatedNote)
+        axios.put(apiUrl+`api/Note/${note.note_id}/`, updatedNote)
             .then(response => {
                 setNotes(updatedNotes);
             })

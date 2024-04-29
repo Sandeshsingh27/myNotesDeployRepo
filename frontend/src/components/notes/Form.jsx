@@ -6,6 +6,7 @@ import { DataContext } from '../../context/DataProvider';
 import { addNote} from '../../services/ApiService';
 import { ChromePicker } from 'react-color';
 import axios from 'axios';
+import apiUrl from '../../services/config';
 
 const Container = styled(Box)`
     display: flex;
@@ -18,8 +19,6 @@ const Container = styled(Box)`
     min-height: 30px;
     padding: 10px 15px;
 `;
-
-const url = 'http://127.0.0.1:8000/'
 
 const Form = () => {
     const [showTextField, setShowTextField] = useState(false);
@@ -46,7 +45,7 @@ const Form = () => {
                     }
     
                     // Update note in the database
-                    axios.put(url+`api/Note/${newNote.note_id}/`, updatedNoteData)
+                    axios.put(apiUrl+`api/Note/${newNote.note_id}/`, updatedNoteData)
                         .then(response => {
                             console.log('Note updated successfully:', response.data);
                         })
